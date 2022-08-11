@@ -1,3 +1,17 @@
+//adding the sfx and music
+var sfx = {
+    turn: new Howl({
+        src:'./music/turn.mp3'
+    }),
+    chime: new Howl({
+        src:'./music/chime.wav'
+    }),
+    fail: new Howl({
+        src:'./music/fail.wav'
+    })
+}
+
+
 //selecting all the li elements
 let cards = document.querySelectorAll(".card");
 
@@ -13,14 +27,16 @@ let counter=0;
 
 //function flipCard (e is element)
 function flipCard(e){
-    //clickedCaed will hold the element clicked (the li selected) (to make it so that the li is the one selected not the img or the span we need to desable the cursor in the CSS)
-    let clickedCard = e.target;
+    //clickedCard will hold the element clicked (the li selected) (to make it so that the li is the one selected not the img or the span we need to desable the cursor in the CSS)
+    let clickedCard = e.target; 
     //preventing the user from selecting the same card and preventing him from selecting multiple card by spam clicking
     if(clickedCard !== cardOne && !disablePick){
+        sfx.turn.play()
         clickedCard.classList.add("flip");
         if(!cardOne){
             return cardOne=clickedCard;
         }
+        sfx.turn.play()
         cardTwo=clickedCard;
         disablePick=true;
         //we need to compare the 2 imgs and that is by comparing their src
@@ -32,6 +48,7 @@ function flipCard(e){
 
 function matchCard(img1, img2){
     if(img1===img2){
+        sfx.chime.play()
         counter++;
         if(counter===8){
             setTimeout(()=>{
@@ -44,6 +61,7 @@ function matchCard(img1, img2){
         return disablePick=false;
     }
     setTimeout(()=>{
+        sfx.fail.play()
         cardOne.classList.add("shake");
         cardTwo.classList.add("shake");
     },300);
